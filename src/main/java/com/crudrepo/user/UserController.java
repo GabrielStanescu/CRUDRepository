@@ -1,7 +1,6 @@
 package com.crudrepo.user;
 
 import com.crudrepo.user.model.User;
-import com.crudrepo.user.service.UserRepository;
 import com.crudrepo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

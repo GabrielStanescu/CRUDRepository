@@ -2,10 +2,8 @@ package com.crudrepo.user.model;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Table(name = "users")
@@ -19,4 +17,8 @@ public class User {
     private short age;
     private String email;
     private String password;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Column(name = "user_id")
+    List<Account> accountList;
 }
