@@ -12,7 +12,17 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    public void createAccount(Integer id, String currency) {
+    @Autowired
+    UserRepository userRepository;
+
+    public boolean createAccount(Integer id, String currency) {
+        Account account = new Account();
+        if (userRepository.findById(id).isEmpty())
+            return false;
+        account.setUserId(id);
+        account.setCurrency(currency);
+        account.setIBAN(ibanGenerator());
+        return true;
     }
 
     public String ibanGenerator() {
