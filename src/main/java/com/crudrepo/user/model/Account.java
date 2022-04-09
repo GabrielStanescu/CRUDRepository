@@ -17,4 +17,5 @@ public class Account {
     private int userId;
     private String currency;
     private String IBAN;
+    private double balance;
 }

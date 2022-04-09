@@ -18,7 +18,7 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @Column(name = "user_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     List<Account> accountList;
 }
