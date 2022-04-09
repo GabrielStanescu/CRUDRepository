@@ -13,8 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     UserService userService;
