@@ -1,11 +1,31 @@
 package com.crudrepo.user;
 
+import com.crudrepo.user.model.User;
 import com.crudrepo.user.service.UserRepository;
+import com.crudrepo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("users")
 public class UserController {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
+
+    @PostMapping()
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            userService.createUser(user);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
