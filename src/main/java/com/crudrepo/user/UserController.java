@@ -22,11 +22,7 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody User user) {
-        try {
-            userService.createUser(user);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

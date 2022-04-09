@@ -12,11 +12,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void createUser(User user) throws Exception {
-        if (getUser(user.getId()) != null)
-            userRepository.save(user);
-        else
-            throw new Exception();
+    public void createUser(User user) {
+        userRepository.save(user);
     }
 
     public User getUser(int id) {
