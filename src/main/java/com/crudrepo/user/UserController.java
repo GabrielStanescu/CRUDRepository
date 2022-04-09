@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -22,10 +24,19 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
             userService.createUser(user);
-
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public User getUserById(@PathVariable("id") Integer id) {
+        return userService.getUser(id);
+    }
+
+    @GetMapping("/list")
+    public List<User> getUsersByName(@RequestParam("name") String name) {
+        return userService.getUsersByName(name);
     }
 }
