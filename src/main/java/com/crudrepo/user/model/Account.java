@@ -8,15 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Getter
-@Table(name = "users")
+@Table(name="accounts")
 @Entity
-public class User {
+public class Account {
     @Id
-    @GeneratedValue
+    @GeneratedValue()
     private int id;
-    private String firstName;
-    private String lastName;
-    private short age;
-    private String email;
-    private String password;
+    private int userId;
+    private String currency;
+    private String IBAN;
 }
