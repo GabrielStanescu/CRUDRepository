@@ -22,6 +22,7 @@ public class AccountService {
         account.setUserId(id);
         account.setCurrency(currency);
         account.setIBAN(ibanGenerator());
+        accountRepository.save(account);
         return true;
     }
 
