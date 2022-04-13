@@ -2,6 +2,7 @@ package com.crudrepo.user;
 
 import com.crudrepo.user.model.User;
 import com.crudrepo.user.service.UserService;
+import com.crudrepo.user.streamservice.UserStreamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserStreamService userStreamService;
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody User user) {
@@ -30,5 +34,10 @@ public class UserController {
     @GetMapping("/list")
     public List<User> getUsersByName(@RequestParam("name") String name) {
         return userService.getUsersByName(name);
+    }
+
+    @GetMapping("/streams/initials")
+    public List<String> getUsersByInitials() {
+        return userStreamService.getUsersInitials();
     }
 }
