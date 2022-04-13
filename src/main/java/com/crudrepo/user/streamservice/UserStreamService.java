@@ -22,4 +22,11 @@ public class UserStreamService {
                 .map(user -> user.getFirstName().charAt(0) + user.getLastName().charAt(0) + "")
                 .collect(Collectors.toList());
     }
+
+    public Long getNoOfUsersByGmail() {
+        Iterable<User> allUsers = userRepository.findAll();
+        return StreamSupport.stream(allUsers.spliterator(), false)
+                .filter(user -> user.getEmail().contains("@gmail."))
+                .count();
+    }
 }
