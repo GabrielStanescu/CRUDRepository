@@ -29,4 +29,27 @@ public class UserStreamService {
                 .filter(user -> user.getEmail().contains("@gmail."))
                 .count();
     }
+
+    public List<String> getLastNames() {
+        Iterable<User> allUsers = userRepository.findAll();
+        return StreamSupport.stream(allUsers.spliterator(), false)
+                .map(User::getLastName)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public String getFirstNameInitials() {
+        Iterable<User> allUsers = userRepository.findAll();
+        return StreamSupport.stream(allUsers.spliterator(), false)
+                .map(user -> user.getFirstName().charAt(0) + "")
+                .collect(Collectors.joining());
+    }
+
+    public Long getNoOfUsersTask5() {
+        Iterable<User> allUsers = userRepository.findAll();
+        return StreamSupport.stream(allUsers.spliterator(), false)
+                .filter(user -> user.getFirstName().toLowerCase().contains("a"))
+                .filter(user -> user.getAge() < 20)
+                .count();
+    }
 }
