@@ -40,4 +40,9 @@ public class UserController {
     public List<String> getUsersByInitials() {
         return userStreamService.getUsersInitials();
     }
+
+    @GetMapping("streams/gmails")
+    public Long getNoOfUsersByGmail() {
+        return userStreamService.getNoOfUsersByGmail();
+    }
 }
