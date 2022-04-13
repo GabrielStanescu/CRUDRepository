@@ -45,4 +45,19 @@ public class UserController {
     public Long getNoOfUsersByGmail() {
         return userStreamService.getNoOfUsersByGmail();
     }
+
+    @GetMapping("streams/lastnames")
+    public List<String> getLastNames() {
+        return userStreamService.getLastNames();
+    }
+
+    @GetMapping("streams/initials/firstnames")
+    public String getFirstNameInitials() {
+        return userStreamService.getFirstNameInitials();
+    }
+
+    @GetMapping("streams/task5")
+    public Long getNoOfUsersTask5() {
+        return userStreamService.getNoOfUsersTask5();
+    }
 }
