@@ -19,7 +19,7 @@ public class UserStreamService {
     public List<String> getUsersInitials() {
         Iterable<User> allUsers = userRepository.findAll();
         return StreamSupport.stream(allUsers.spliterator(), false)
-                .map(user -> user.getFirstName().charAt(0) + user.getLastName().charAt(0) + "")
+                .map(user -> user.getFirstName().charAt(0) + "" + user.getLastName().charAt(0))
                 .collect(Collectors.toList());
     }
 
