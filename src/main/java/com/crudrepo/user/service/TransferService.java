@@ -17,11 +17,8 @@ public class TransferService {
     }
 
     public boolean sendMoney(String dest, String src, double amount) {
-        Account destAcc = getAccountByIban(dest);
         Account srcAcc = getAccountByIban(src);
-        if (destAcc == null || srcAcc == null)
-            return false;
-        if (srcAcc.getBalance() < amount)
+        if (srcAcc == null || srcAcc.getBalance() < amount)
             return false;
 
         // TO-DO
