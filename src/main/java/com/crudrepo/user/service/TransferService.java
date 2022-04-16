@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Service
 public class TransferService {
+    Transfer transfer;
+
     @Autowired
     AccountRepository accountRepository;
 
@@ -23,7 +25,6 @@ public class TransferService {
 
         // TO-DO
         // link to internal/external service
-
-        return true;
+        return transfer.sendMoney(dest, srcAcc, amount);
     }
 }
