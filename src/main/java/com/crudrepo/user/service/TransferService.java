@@ -26,13 +26,16 @@ public class TransferService {
         return optionalAccount.orElse(null);
     }
 
+    private boolean isInternal(String i1, String i2) {
+        return i1.charAt(0) == i2.charAt(0) && i1.charAt(1) == i2.charAt(1);
+    }
+
     public boolean sendMoney(String dest, String src, double amount) {
         Account srcAcc = getAccountByIban(src);
         if (srcAcc == null || srcAcc.getBalance() < amount)
             return false;
-
-        // TO-DO
-        // link to internal/external service
-        return internalTransfer.sendMoney(dest, srcAcc, amount);
+        return isInternal(dest, src) ?
+                internalTransfer.sendMoney(dest, srcAcc, amount) :
+                externalTransfer.sendMoney(dest, srcAcc, amount);
     }
 }

@@ -14,6 +14,7 @@ public class ExternalTransfer implements Transfer{
     @Override
     public boolean sendMoney(String dest, Account src, double amount) {
         src.setBalance(src.getBalance() - amount);
+        accountRepository.save(src);
         return true;
     }
 }

@@ -16,8 +16,13 @@ public class AccountController {
     AccountService accountService;
 
     @PostMapping()
-    public ResponseEntity<?> createAccount(@RequestParam("id") Integer id, @RequestParam("currency") String currency) {
-        if(accountService.createAccount(id, currency))
+    public ResponseEntity<?> createAccount(@RequestParam("id") Integer id,
+                                           @RequestHeader(name = "currency") String currency,
+                                           @RequestHeader(name = "prefix") String prefix) {
+        if (prefix.length() != 2)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        prefix = prefix.toUpperCase();
+        if(accountService.createAccount(id, currency, prefix))
             return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT); // bruh what's this
     }

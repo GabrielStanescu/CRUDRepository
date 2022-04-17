@@ -16,19 +16,19 @@ public class AccountService {
     @Autowired
     UserRepository userRepository;
 
-    public boolean createAccount(Integer id, String currency) {
+    public boolean createAccount(Integer id, String currency, String prefix) {
         Account account = new Account();
         if (userRepository.findById(id).isEmpty())
             return false;
         account.setUserId(id);
         account.setCurrency(currency);
-        account.setIBAN(ibanGenerator());
+        account.setIBAN(ibanGenerator(prefix));
         accountRepository.save(account);
         return true;
     }
 
-    public String ibanGenerator() {
-        StringBuilder iban = new StringBuilder("RO"); // can be edited manually
+    public String ibanGenerator(String prefix) {
+        StringBuilder iban = new StringBuilder(prefix); // can be edited manually
         Random rand = new Random();
         int i, n;
 
@@ -39,7 +39,7 @@ public class AccountService {
             }
             if (!ibanDuplicate(iban.toString()))
                 break;
-            iban = new StringBuilder("RO");
+            iban = new StringBuilder(prefix);
         }
 
         return iban.toString();
