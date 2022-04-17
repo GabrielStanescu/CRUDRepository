@@ -1,8 +1,7 @@
 # CRUDRepository
-tema 2.8
+Beans Life Cycle homework
 
-Checked IBAN duplications.
-Checked the case for accidentally creating an account for an invalid user ID.
-An user can have multiple accounts.
+IBAN: [2 letter prefix] + [14 digits]
+TransferController checks if a transfer should be internal or external, based on the prefix.
 
-User-Account relation is based on a foreign key/OneToMany adnotation.
+Multiple Transfer Beans, separated with @Qualifier.
