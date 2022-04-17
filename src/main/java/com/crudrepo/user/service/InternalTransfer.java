@@ -19,8 +19,14 @@ public class InternalTransfer implements Transfer{
         if (optional.isEmpty())
             return false;
         Account destAcc = optional.get();
+
+        // update balances
         src.setBalance(src.getBalance() - amount);
         destAcc.setBalance(destAcc.getBalance() + amount);
+
+        // updating database
+        accountRepository.save(src);
+        accountRepository.save(destAcc);
         return true;
     }
 }

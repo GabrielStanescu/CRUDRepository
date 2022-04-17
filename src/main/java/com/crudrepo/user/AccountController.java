@@ -15,7 +15,7 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<?> createAccount(@RequestParam("id") Integer id, @RequestParam("currency") String currency) {
         if(accountService.createAccount(id, currency))
             return new ResponseEntity<>(HttpStatus.OK);
