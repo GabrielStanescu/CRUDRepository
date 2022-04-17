@@ -2,13 +2,21 @@ package com.crudrepo.user.service;
 
 import com.crudrepo.user.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class TransferService {
-    Transfer transfer;
+
+    @Autowired
+    @Qualifier("internal")
+    Transfer internalTransfer;
+
+    @Autowired
+    @Qualifier("external")
+    Transfer externalTransfer;
 
     @Autowired
     AccountRepository accountRepository;
@@ -25,6 +33,6 @@ public class TransferService {
 
         // TO-DO
         // link to internal/external service
-        return transfer.sendMoney(dest, srcAcc, amount);
+        return internalTransfer.sendMoney(dest, srcAcc, amount);
     }
 }
