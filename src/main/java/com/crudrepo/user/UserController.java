@@ -20,10 +20,10 @@ public class UserController {
     @Autowired
     UserStreamService userStreamService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
         userService.createUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("User successfully created", HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -31,8 +31,8 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping("/list")
-    public List<User> getUsersByName(@RequestParam("name") String name) {
+    @PostMapping("/list")
+    public List<User> getUsersByName(@RequestParam(name = "name") String name) {
         return userService.getUsersByName(name);
     }
 
