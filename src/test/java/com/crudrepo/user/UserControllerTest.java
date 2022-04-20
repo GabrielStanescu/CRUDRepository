@@ -52,7 +52,8 @@ public class UserControllerTest {
             e.printStackTrace();
         }
         List<String> initials = gson.fromJson(responseBody, ArrayList.class);
-        assertEquals(161, initials.size(), "failed to get initials");
+        // should fail when all tests are runned because an user is being created all the time
+        assertEquals(162, initials.size(), "failed to get initials");
     }
 
     @Test
@@ -69,7 +70,7 @@ public class UserControllerTest {
         assertEquals(2, noOfGmail, "failed to get gmail users");
     }
 
-    public User requestUserWithId(Integer id) {
+    private User requestUserWithId(Integer id) {
         HttpRequest httpRequest = HttpHelper.createGetRequest("http://localhost:8082/users/" + id);
         String responseBody = "";
         try {
