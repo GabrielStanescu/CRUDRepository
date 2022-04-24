@@ -1,5 +1,6 @@
 package com.crudrepo.user;
 
+import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.User;
 import com.crudrepo.user.service.UserService;
 import com.crudrepo.user.streamservice.UserStreamService;
@@ -19,6 +20,11 @@ public class UserController {
 
     @Autowired
     UserStreamService userStreamService;
+
+    @PostMapping("/login")
+    public ResponseEntity<?> userLogin(@RequestBody JWTRequest authRequest) {
+        return null;
+    }
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody User user) {
