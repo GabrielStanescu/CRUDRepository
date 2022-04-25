@@ -23,11 +23,13 @@ import java.util.Optional;
 
 @Service
 public class JWTService {
+    private String secret = "https://www.youtube.com/watch?v=yS6LYj-y1HA";
+
     @Autowired
     UserRepository userRepository;
 
     public String generateToken(User user) {
-        Algorithm algorithm = Algorithm.HMAC256("secret");
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         String token = JWT.create()
                 .withClaim("id", user.getId())
                 .withClaim("age", (int) user.getAge())
@@ -62,7 +64,7 @@ public class JWTService {
         // set signature in base64 format
         givenSignature += "=";
         // hash first 2 jwt's parts using sha256
-        SecretKeySpec secretKeySpec = new SecretKeySpec("secret".getBytes(), "HmacSha256");
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(), "HmacSha256");
         Mac mac = Mac.getInstance("HmacSha256");
         mac.init(secretKeySpec);
         String base64Signature = Base64.getUrlEncoder().encodeToString(mac.doFinal(token.getBytes()));
