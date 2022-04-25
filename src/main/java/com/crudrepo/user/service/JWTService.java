@@ -4,26 +4,21 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.JWTHeader;
-import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import java.util.Optional;
 
 @Service
 public class JWTService {
-    private String secret = "https://www.youtube.com/watch?v=yS6LYj-y1HA";
+    private final String secret = "https://www.youtube.com/watch?v=yS6LYj-y1HA";
 
     @Autowired
     UserRepository userRepository;

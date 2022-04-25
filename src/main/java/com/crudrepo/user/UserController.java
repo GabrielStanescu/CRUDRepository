@@ -2,9 +2,7 @@ package com.crudrepo.user;
 
 import com.crudrepo.user.exceptions.UnauthorizedException;
 import com.crudrepo.user.model.JWTRequest;
-import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
-import com.crudrepo.user.service.JWTService;
 import com.crudrepo.user.service.UserService;
 import com.crudrepo.user.streamservice.UserStreamService;
 import org.springframework.beans.factory.annotation.Autowired;

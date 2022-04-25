@@ -2,7 +2,6 @@ package com.crudrepo.user.service;
 
 import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.Account;
-import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
