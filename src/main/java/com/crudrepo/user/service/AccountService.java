@@ -4,6 +4,7 @@ import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.Account;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
+import com.crudrepo.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +63,23 @@ public class AccountService {
         return accountRepository.findAllByUserId(id);
     }
 
-    public boolean isValidJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
-        jwtService.getUserByJWT(jwtResponse);
-        return true;
+    public int getUserIdFromJwt(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
+        User jwtUser = jwtService.getUserByJWT(jwtResponse);
+        int id = jwtUser.getId();
+        Optional<User> dbUser = userRepository.findById(id);
+        if (dbUser.isEmpty())
+            throw new InvalidJWTException("Couldn't find an user with the specified ID.");
+        if (areUsersMatching(jwtUser, dbUser.get())) {
+            return id;
+        } else {
+            throw new InvalidJWTException("User details are invalid.");
+        }
+    }
+
+    private boolean areUsersMatching(User u1, User u2) {
+        return u1.getFirstName().equals(u2.getFirstName())
+                && u1.getLastName().equals(u2.getLastName())
+                && u1.getEmail().equals(u2.getEmail())
+                && u1.getAge() == u2.getAge();
     }
 }

@@ -26,12 +26,10 @@ public class AccountController {
                                            @RequestHeader(name = "prefix") String prefix) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         if (prefix.length() != 2)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (accountService.isValidJWT(jwtResponse)) {
-            ;
-        }
+        int id = accountService.getUserIdFromJwt(jwtResponse);
         prefix = prefix.toUpperCase();
-        if(accountService.createAccount(1, currency, prefix))
-            return new ResponseEntity<>(HttpStatus.OK);
+        if(accountService.createAccount(id, currency, prefix))
+            return new ResponseEntity<>("Account created for user with id " + id, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT); // bruh what's this
     }
 

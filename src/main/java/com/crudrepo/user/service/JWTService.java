@@ -40,9 +40,7 @@ public class JWTService {
 
         if (isSignatureValid(chunks[0] + "." + chunks[1], chunks[2])) {
             Base64.Decoder decoder = Base64.getUrlDecoder();
-            String header = new String(decoder.decode(chunks[0]));
             String payload = new String(decoder.decode(chunks[1]));
-
             Gson gson = new Gson();
             return gson.fromJson(payload, User.class);
         } else {
@@ -53,6 +51,7 @@ public class JWTService {
     private boolean isSignatureValid(String token, String givenSignature) throws NoSuchAlgorithmException, InvalidKeyException {
         // set signature in base64 format
         givenSignature += "=";
+        // hash first 2 jwt's parts using sha256
         SecretKeySpec secretKeySpec = new SecretKeySpec("secret".getBytes(), "HmacSha256");
         Mac mac = Mac.getInstance("HmacSha256");
         mac.init(secretKeySpec);
