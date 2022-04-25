@@ -69,6 +69,7 @@ public class AccountService {
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isEmpty())
             throw new InvalidJWTException("Couldn't find an user with the specified ID.");
+        // compare given and actual users
         if (areUsersMatching(jwtUser, dbUser.get())) {
             return id;
         } else {

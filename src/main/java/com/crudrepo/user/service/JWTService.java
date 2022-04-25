@@ -3,6 +3,7 @@ package com.crudrepo.user.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.crudrepo.user.exceptions.InvalidJWTException;
+import com.crudrepo.user.model.JWTHeader;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
@@ -40,8 +41,12 @@ public class JWTService {
 
         if (isSignatureValid(chunks[0] + "." + chunks[1], chunks[2])) {
             Base64.Decoder decoder = Base64.getUrlDecoder();
+            String header = new String(decoder.decode(chunks[0]));
             String payload = new String(decoder.decode(chunks[1]));
             Gson gson = new Gson();
+            JWTHeader jwtHeader = gson.fromJson(header, JWTHeader.class);
+            if (!isHeaderValid(jwtHeader))
+                throw new InvalidJWTException("Invalid JWT Header");
             return gson.fromJson(payload, User.class);
         } else {
             throw new InvalidJWTException("Invalid JWT Signature.");
@@ -64,5 +69,9 @@ public class JWTService {
         for (final byte b: in)
             builder.append(String.format("%02x", b));
         return builder.toString();
+    }
+
+    private boolean isHeaderValid(JWTHeader jwtHeader) {
+        return jwtHeader.getTyp().equals("JWT") && jwtHeader.getAlg().equals("HS256");
     }
 }

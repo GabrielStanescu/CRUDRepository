@@ -25,7 +25,7 @@ public class AccountController {
                                            @RequestHeader(name = "currency") String currency,
                                            @RequestHeader(name = "prefix") String prefix) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         if (prefix.length() != 2)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Invalid Prefix", HttpStatus.BAD_REQUEST);
         int id = accountService.getUserIdFromJwt(jwtResponse);
         prefix = prefix.toUpperCase();
         if(accountService.createAccount(id, currency, prefix))
