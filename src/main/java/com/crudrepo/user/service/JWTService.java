@@ -2,6 +2,7 @@ package com.crudrepo.user.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
@@ -30,9 +31,15 @@ public class JWTService {
         return "Bearer " + token;
     }
 
-    public User getUserByJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException {
+    public User getUserByJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         String token = jwtResponse.getJwtToken().replace("Bearer ", "");
         String[] chunks = token.split("\\.");
+
+        if (isSignatureValid(chunks[0] + "." + chunks[1], chunks[2])) {
+
+        } else {
+            throw new InvalidJWTException("Invalid JWT Signature.");
+        }
 
         System.out.println(token);
 

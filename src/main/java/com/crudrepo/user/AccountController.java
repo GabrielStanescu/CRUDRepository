@@ -1,5 +1,6 @@
 package com.crudrepo.user;
 
+import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.Account;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
@@ -22,7 +23,7 @@ public class AccountController {
     @PostMapping()
     public ResponseEntity<?> createAccount(@RequestHeader(name = "Authorization") JWTResponse jwtResponse,
                                            @RequestHeader(name = "currency") String currency,
-                                           @RequestHeader(name = "prefix") String prefix) throws NoSuchAlgorithmException, InvalidKeyException {
+                                           @RequestHeader(name = "prefix") String prefix) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         if (prefix.length() != 2)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (accountService.isValidJWT(jwtResponse)) {

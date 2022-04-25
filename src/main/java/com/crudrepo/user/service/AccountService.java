@@ -1,5 +1,6 @@
 package com.crudrepo.user.service;
 
+import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.Account;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
@@ -61,7 +62,7 @@ public class AccountService {
         return accountRepository.findAllByUserId(id);
     }
 
-    public boolean isValidJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException {
+    public boolean isValidJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         jwtService.getUserByJWT(jwtResponse);
         return true;
     }
