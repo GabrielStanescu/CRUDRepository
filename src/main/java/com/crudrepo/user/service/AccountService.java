@@ -1,9 +1,13 @@
 package com.crudrepo.user.service;
 
 import com.crudrepo.user.model.Account;
+import com.crudrepo.user.model.JWTRequest;
+import com.crudrepo.user.model.JWTResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -15,6 +19,9 @@ public class AccountService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    JWTService jwtService;
 
     public boolean createAccount(Integer id, String currency, String prefix) {
         Account account = new Account();
@@ -52,5 +59,10 @@ public class AccountService {
 
     public List<Account> getAccounts(int id) {
         return accountRepository.findAllByUserId(id);
+    }
+
+    public boolean isValidJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException {
+        jwtService.getUserByJWT(jwtResponse);
+        return true;
     }
 }

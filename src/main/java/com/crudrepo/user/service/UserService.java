@@ -12,6 +12,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JWTService jwtService;
+
     public void createUser(User user) {
         userRepository.save(user);
     }
@@ -23,5 +26,13 @@ public class UserService {
 
     public List<User> getUsersByName(String firstName) {
         return userRepository.findByFirstName(firstName);
+    }
+
+    public Optional<User> isUserValid(String username, String password) {
+        return userRepository.findByEmailAndPassword(username, password);
+    }
+
+    public String getToken(User user) {
+        return jwtService.generateToken(user);
     }
 }

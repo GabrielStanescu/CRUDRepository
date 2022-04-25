@@ -1,7 +1,10 @@
 package com.crudrepo.user;
 
+import com.crudrepo.user.exceptions.UnauthorizedException;
 import com.crudrepo.user.model.JWTRequest;
+import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
+import com.crudrepo.user.service.JWTService;
 import com.crudrepo.user.service.UserService;
 import com.crudrepo.user.streamservice.UserStreamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -22,8 +27,16 @@ public class UserController {
     UserStreamService userStreamService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> userLogin(@RequestBody JWTRequest authRequest) {
-        return null;
+    public void userLogin(@RequestBody JWTRequest authRequest, HttpServletResponse responseToken) throws UnauthorizedException {
+        Optional<User> userOptional = userService.isUserValid(authRequest.getUsername(), authRequest.getPassword());
+        if (userOptional.isPresent()) {
+            String token = userService.getToken(userOptional.get());
+            System.out.println(token);
+            responseToken.addHeader("Authorization", token);
+        }
+        else {
+            throw new UnauthorizedException("Username or password are incorrect.");
+        }
     }
 
     @PostMapping()
