@@ -6,6 +6,9 @@ import com.crudrepo.user.exceptions.InvalidJWTException;
 import com.crudrepo.user.model.JWTRequest;
 import com.crudrepo.user.model.JWTResponse;
 import com.crudrepo.user.model.User;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -26,7 +29,7 @@ public class JWTService {
                 .withClaim("age", (int) user.getAge())
                 .withClaim("email", user.getEmail())
                 .withClaim("firstName", user.getFirstName())
-                .withClaim("last_name", user.getLastName())
+                .withClaim("lastName", user.getLastName())
                 .sign(algorithm);
         return "Bearer " + token;
     }
@@ -36,24 +39,15 @@ public class JWTService {
         String[] chunks = token.split("\\.");
 
         if (isSignatureValid(chunks[0] + "." + chunks[1], chunks[2])) {
+            Base64.Decoder decoder = Base64.getUrlDecoder();
+            String header = new String(decoder.decode(chunks[0]));
+            String payload = new String(decoder.decode(chunks[1]));
 
+            Gson gson = new Gson();
+            return gson.fromJson(payload, User.class);
         } else {
             throw new InvalidJWTException("Invalid JWT Signature.");
         }
-
-        System.out.println(token);
-
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String header = new String(decoder.decode(chunks[0]));
-        String payload = new String(decoder.decode(chunks[1]));
-        String signature = new String(decoder.decode(chunks[2]));
-
-        System.out.println(header);
-        System.out.println(payload);
-        System.out.println(signature);
-
-        System.out.println(isSignatureValid(chunks[0] + "." + chunks[1], chunks[2]));
-        return null;
     }
 
     private boolean isSignatureValid(String token, String givenSignature) throws NoSuchAlgorithmException, InvalidKeyException {
