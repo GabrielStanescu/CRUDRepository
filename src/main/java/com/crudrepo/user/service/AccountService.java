@@ -70,17 +70,10 @@ public class AccountService {
         if (dbUser.isEmpty())
             throw new InvalidJWTException("Couldn't find an user with the specified ID.");
         // compare given and actual users
-        if (areUsersMatching(jwtUser, dbUser.get())) {
+        if (jwtUser.matches(dbUser.get())) {
             return id;
         } else {
             throw new InvalidJWTException("User details are invalid.");
         }
-    }
-
-    private boolean areUsersMatching(User u1, User u2) {
-        return u1.getFirstName().equals(u2.getFirstName())
-                && u1.getLastName().equals(u2.getLastName())
-                && u1.getEmail().equals(u2.getEmail())
-                && u1.getAge() == u2.getAge();
     }
 }

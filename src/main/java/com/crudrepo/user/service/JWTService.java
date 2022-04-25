@@ -10,6 +10,7 @@ import com.crudrepo.user.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -22,6 +23,8 @@ import java.util.Optional;
 
 @Service
 public class JWTService {
+    @Autowired
+    UserRepository userRepository;
 
     public String generateToken(User user) {
         Algorithm algorithm = Algorithm.HMAC256("secret");
@@ -38,6 +41,8 @@ public class JWTService {
     public User getUserByJWT(JWTResponse jwtResponse) throws NoSuchAlgorithmException, InvalidKeyException, InvalidJWTException {
         String token = jwtResponse.getJwtToken().replace("Bearer ", "");
         String[] chunks = token.split("\\.");
+        if (chunks.length != 3)
+            throw new InvalidJWTException("Invalid JWT Token");
 
         if (isSignatureValid(chunks[0] + "." + chunks[1], chunks[2])) {
             Base64.Decoder decoder = Base64.getUrlDecoder();
@@ -74,4 +79,6 @@ public class JWTService {
     private boolean isHeaderValid(JWTHeader jwtHeader) {
         return jwtHeader.getTyp().equals("JWT") && jwtHeader.getAlg().equals("HS256");
     }
+
+
 }
